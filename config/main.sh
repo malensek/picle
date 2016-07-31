@@ -2,7 +2,7 @@
 # Sample master configuration file. Must be located in ${PICLE_CONF}, which
 # defaults to ${PICLE_HOME}/config.
 ################################################################################
-MASTER_NODE="pi-0"
+MASTER_NODE="jr-0"
 CLUSTER_MEMBERS="${PICLE_HOME}/config/cluster-members.txt"
 USER_HOME_DIR="/srv/nfs/${MASTER_NODE}/home"
 UPDATE_DIR="/srv/nfs/${MASTER_NODE}/sys/updates"
