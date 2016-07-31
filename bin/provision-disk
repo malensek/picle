@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
+################################################################################
+# provision-disk - 
+################################################################################
 
-disk=${1}
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+require mkfs.f2fs
 
 label="disk1"
+
+################################################################################
+
+if [[ -z "${1}" ]]; then
+    exit 1
+fi
+
+disk=${1}
 
 mkfs.f2fs -l "${label}" "${disk}"
 
@@ -11,3 +24,4 @@ mount -v "${disk}" /tmp/tmpmount
 chgrp users /tmp/tmpmount
 chmod g+rwx /tmp/tmpmount
 umount -v /tmp/tmpmount
+echo "Finished provisioning disk ${disk}, label=${label}"
