@@ -13,7 +13,16 @@ if [[ "${#}" -ne 1 ]]; then
 fi
 user_name="${1}"
 
-echo "Deleting user: ${user_name}"
+if ! id -u "${1}" &> /dev/null; then
+    info_error "User does not exist: ${1}"
+    exit 1
+fi
+
+info_warn "Deleting user: ${user_name}"
+info_warn "User's home directory will be removed!"
+if ! prompt_bool "Proceed?"; then
+    exit 1
+fi
 
 userdel -r "${user_name}"
 if [[ ${?} -ne 0 ]]; then
