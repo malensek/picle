@@ -68,7 +68,7 @@ prompt_bool() {
 }
 
 is_master() {
-    [[ "${MASTER_NODE}" == "$(hostname)" ]] || return 1 && return 0
+    [[ "${PRIMARY_NODE}" == "$(hostname)" ]] || return 1 && return 0
 }
 
 initialize_picle() {
