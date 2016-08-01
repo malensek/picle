@@ -12,9 +12,9 @@ if [[ "${#}" -ne 1 ]]; then
 fi
 user_name="${1}"
 
-echo "Creating new user: ${user_name}"
+info "Creating new user: ${user_name}"
 
-useradd -b ${USER_HOME_DIR} -m -G users "${user_name}"
+useradd -b "${USER_HOME_DIR}" -m -G "${USER_GROUPS}" "${user_name}"
 if [[ ${?} -ne 0 ]]; then
     echo "Failed to create new user; exiting"
     exit 1
