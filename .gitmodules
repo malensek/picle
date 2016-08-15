@@ -1,3 +1,6 @@
 [submodule "admin/dssh"]
 	path = admin/dssh
 	url = http://github.com/malensek/dssh
+[submodule "shared/dssh"]
+	path = shared/dssh
+	url = http://github.com/malensek/dssh
