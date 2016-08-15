@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [[ ${#} -ne 2 ]]; then
+    echo "Usage: $(basename ${0}) file-list template-name"
+    exit 1
+fi
+
+list="${1}"
+name="${2}"
+
+rm -fv "${name}"
+
+files=$(sed '/^#/d' "${list}")
+
+tar czvf "${name}" -- $(echo "${files}")
+
+chmod -v 400 "${name}"
