@@ -1,0 +1,10 @@
+################################################################################
+# Sample Template File - Items added to this list will be included when
+# generating a machine template. Supports wildcards.
+################################################################################
+/boot/config.txt
+/etc/modprobe.d
+/etc/passwd
+/etc/group
+/etc/ssh/ssh_host_*_key*
+/root/.ssh/authorized_keys
