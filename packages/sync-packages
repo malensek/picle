@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+host="129.82.44.221"
+
+echo "Retrieving package list from ${host}..."
+remote=$(ssh "${host}" 'pacman --query --quiet')
+num_remote=$(echo "${remote}" | wc -l)
+local=$(pacman --query --quiet)
+num_local=$(echo "${remote}" | wc -l)
+echo "Local packages: ${num_local}"
+echo "Remote packages: ${num_remote}"
+
+diffs=$(diff <(echo "${local}") <(echo "${remote}"))
+if [[ -z "${diffs}" ]]; then
+    echo "Remote and local package lists are identical."
+    exit 0
+fi
+
+add=$(grep '^<' <<< "${diffs}" | sed 's/^< //g')
+remove=$(grep '^>' <<< "${diffs}" | sed 's/^> //g')
+
+if [[ ! -z "${add}" ]]; then
+    echo "Packages to add:"
+    echo "${add}"
+    echo "${add}" | ssh "${host}" 'pacman --refresh --sync --noconfirm -'
+fi
+
+if [[ ! -z "${remove}" ]]; then
+    echo "Packages to remove:"
+    echo "${remove}"
+    echo "${remove}" | ssh "${host}" 'pacman --remove --noconfirm -'
+fi
