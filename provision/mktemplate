@@ -14,4 +14,4 @@ files=$(sed '/^#/d' "${list}")
 
 tar czvf "${name}" -- $(echo "${files}")
 
-chmod -v 400 "${name}"
+chmod -v 600 "${name}"
