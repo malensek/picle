@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+
+led="/sys/class/leds/led0"
+
+echo "Disabling LEDs on the cluster..."
+../shared/dssh/bin/dssh -pqf ../pi-cluster.txt 'echo "none" > /sys/class/leds/led0/trigger'
+
+read -r -d '' remote_script <<EOM
+while true; do
+    echo 'default-on' > "${led}/trigger"
+    echo -n 1
+    sleep 2
+
+    echo 'none' > "${led}/trigger"
+    echo -n 0
+    sleep 0.5
+done
+EOM
+
+echo "Starting locator beacon. Press ^C to stop."
+ssh '129.82.44.221' "${remote_script}"
+
+echo "Restoring LEDs..."
+../shared/dssh/bin/dssh -pqf ../pi-cluster.txt "echo 'mmc0' > ${led}/trigger"
