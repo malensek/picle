@@ -16,16 +16,22 @@ die() {
     exit 1
 }
 
-if [[ ${#} -ne 1 ]]; then
-    echo "Usage: $(basename ${0}) <device>"
+hostname="raspberry-pi"
+
+if [[ ${#} -lt 1 ]]; then
+    echo "Usage: $(basename ${0}) device [template-image]"
     exit 1
 fi
 
 dev="${1}"
+template="${2}"
 
 [[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
+[[ ! -e "${template}" ]] && die "Template does not exist: ${template}"
 (mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
 
+[[ -z "${template}" ]] && \
+    info "Warning: No template image specified. Creating stock install."
 
 info "Partitioning disk..."
 cat <<EOM | fdisk "${dev}"
@@ -72,6 +78,18 @@ sync
 info "Creating boot directory..."
 mv -v /var/tmp/root/boot/* /var/tmp/boot
 
-info "Un-mounting file systems..."
+info "Re-mounting boot into the root file system..."
 umount -v /var/tmp/boot
+mount -v "${dev}1" /var/tmp/root/boot
+
+if [[ ! -z "${template}" ]]; then
+    info "Applying template image..."
+    tar xvf "${template}" -C /var/tmp/root
+fi
+
+info "Setting hostname: ${hostname}"
+echo "${hostname}" > /var/tmp/root/etc/hostname
+
+info "Unmounting file systems..."
+umount -v /var/tmp/root/boot
 umount -v /var/tmp/root
