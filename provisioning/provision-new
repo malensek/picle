@@ -56,8 +56,13 @@ info "Mounting file systems..."
 mkdir -v /var/tmp/boot
 mkdir -v /var/tmp/root
 mount -v "${dev}1" /var/tmp/boot
+boot_ok=${?}
 mount -v "${dev}2" /var/tmp/root
-#TODO need status checks here
+root_ok=${?}
+
+if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
+    die "Failed to mount partitions!"
+fi
 
 info "Retrieving latest arch linux image..."
 wget -N http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -P /var/tmp
