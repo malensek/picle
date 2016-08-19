@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+################################################################################
+# update-passwd - this utility will copy the passwd and group files from the
+# template machine out to the rest of the machines in the cluster. Use this
+# after adding/removing user accounts or groups.
+################################################################################
+
+files="
+    /etc/passwd
+    /etc/shadow
+    /etc/group
+"
+
+for i in $(cat ./pi-cluster.txt); do
+    echo "-- ${i} --"
+    for f in ${files}; do
+	scp "${f}" "${i}:${f}"
+    done
+done
