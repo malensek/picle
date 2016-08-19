@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo_color() {
+    color="${1}"
+    echo -e "\e[0;${color}m${@}\e[0m"
+}
+
 info() {
     echo -e "\e[34m${@}\e[0m"
     sleep 1
