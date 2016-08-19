@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+################################################################################
+# install-updates - downloads all available updates to a shared location and
+# then starts the install process in parallel across the cluster.
+################################################################################
+
+update_dir="/s/pi-0/sys/updates"
+
+################################################################################
+
+now=$(date '+%F')
+dir="${update_dir}/${now}"
+
+echo "Creating update directory: ${dir}"
+mkdir -p "${dir}" 
+
+echo "Downloading updates..."
+pacman --sync --sysupgrade --downloadonly --noconfirm --cachedir "${dir}"
+
+echo "Installing updates..."
+./dssh/bin/dssh -t10 -jf ./pi-cluster.txt \
+    "pacman --upgrade --noprogressbar --noconfirm ${dir}/*"
+
+echo "Complete."
