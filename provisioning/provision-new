@@ -23,11 +23,9 @@ fi
 
 dev="${1}"
 
-mount | grep "${dev}" &> /dev/null
-if [[ ${?} -ne 1 ]]; then
-    echo "Device is mounted! Unmount first."
-    exit 1
-fi
+[[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
+(mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
+
 
 info "Partitioning disk..."
 cat <<EOM | fdisk "${dev}"
