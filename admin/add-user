@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+################################################################################
+# add-user - creates a new user account (including home directory on NFS) and
+# pushes the changes out to the cluster.
+################################################################################
+
+if [[ "${#}" -ne 1 ]]; then
+    echo "Usage: $(basename ${0}) <username>"
+    exit 1
+fi
+user_name="${1}"
+
+echo "Creating new user: ${user_name}"
+
+useradd -b /s/pi-0/home -m -G users "${user_name}"
+if [[ ${?} -ne 0 ]]; then
+    echo "Failed to create new user; exiting"
+    exit 1
+fi
+
+passwd "${user_name}"
+
+./update-passwd
