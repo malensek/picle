@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+################################################################################
+# chng-user-passwd - changes a user password and pushes the new password out to
+# the rest of the cluster.
+################################################################################
+
+if [[ "${#}" -ne 1 ]]; then
+    echo "Usage: $(basename ${0}) <username>"
+    exit 1
+fi
+user_name="${1}"
+
+passwd "${user_name}"
+
+./update-passwd
