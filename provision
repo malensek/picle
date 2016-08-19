@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+info() {
+    echo -e "\e[34m${@}\e[0m"
+    sleep 1
+}
+
+if [[ ${#} -ne 1 ]]; then
+    echo "Usage: $(basename ${0}) <device>"
+    exit 1
+fi
+
+dev="${1}"
+
+mount | grep "${dev}" &> /dev/null
+if [[ ${?} -ne 1 ]]; then
+    echo "Device is mounted! Unmount first."
+    exit 1
+fi
+
+info "Partitioning disk..."
+cat <<EOM | fdisk "${dev}"
+p
+o
+n
+p
+1
+
++100M
+t
+c
+n
+p
+2
+
+
+w
+EOM
+
+info "Creating file systems..."
+
+mkfs.vfat "${dev}1"
+mkfs.f2fs "${dev}2"
+
+info "Mounting file systems..."
+mkdir -v /var/tmp/boot
+mkdir -v /var/tmp/root
+mount -v "${dev}1" /var/tmp/boot
+mount -v "${dev}2" /var/tmp/root
+
+info "Retrieving latest arch linux image..."
+wget -N http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -P /var/tmp
+
+info "Creating root directory..."
+tar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
+sync
+info "Creating boot directory..."
+mv -v /var/tmp/root/boot/* /var/tmp/boot
+
+info "Un-mounting file systems..."
+umount -v /var/tmp/boot
+umount -v /var/tmp/root
