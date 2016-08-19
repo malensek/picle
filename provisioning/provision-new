@@ -10,6 +10,11 @@ info() {
     sleep 1
 }
 
+die() {
+    echo_color 31 "[X] ${@}"
+    exit 1
+}
+
 if [[ ${#} -ne 1 ]]; then
     echo "Usage: $(basename ${0}) <device>"
     exit 1
