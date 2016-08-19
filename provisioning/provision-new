@@ -6,7 +6,7 @@ echo_color() {
 }
 
 info() {
-    echo -e "\e[34m${@}\e[0m"
+    echo_color 34 "[>] ${@}"
     sleep 1
 }
 
