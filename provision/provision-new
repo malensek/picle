@@ -27,7 +27,8 @@ dev="${1}"
 template="${2}"
 
 [[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
-[[ ! -e "${template}" ]] && die "Template does not exist: ${template}"
+[[ ! -z "${template}" && ! -e "${template}" ]] && \
+    die "Template does not exist: ${template}"
 (mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
 
 [[ -z "${template}" ]] && \
