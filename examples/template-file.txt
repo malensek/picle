@@ -3,6 +3,7 @@
 # generating a machine template. Supports wildcards.
 ################################################################################
 /boot/config.txt
+/etc/localtime
 /etc/modprobe.d
 /etc/passwd
 /etc/group
