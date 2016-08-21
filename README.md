@@ -1,1 +1,3 @@
-# pi-cluster
+Raspberry Pi Cluster Administration Scripts
+===========================================
+
