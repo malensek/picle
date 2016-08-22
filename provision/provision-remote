@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+echo_color() {
+    color="${1}"
+    shift 1
+    echo -e "\e[0;${color}m${@}\e[0m"
+}
+
+info() {
+    echo_color 34 "[>] ${@}"
+    sleep 1
+}
+
+die() {
+    echo_color 31 "[X] ${@}"
+    exit 1
+}
+
+
+if [[ ${#} -lt 1 ]]; then
+    echo "Usage: $(basename ${0}) device [template-image]"
+    exit 1
+fi
+
+dev="${1}"
+template="${2}"
+
+[[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
+[[ ! -z "${template}" && ! -e "${template}" ]] && \
+    die "Template does not exist: ${template}"
+(mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
+
+[[ -z "${template}" ]] && \
+    info "Warning: No template image specified. Creating stock install."
+
+info "Partitioning disk..."
+cat <<EOM | fdisk "${dev}"
+p
+o
+n
+p
+1
+
++100M
+t
+c
+n
+p
+2
+
+
+w
+EOM
+
+info "Creating file systems..."
+
+mkfs.vfat "${dev}1"
+mkfs.f2fs "${dev}2"
+
+info "Mounting file systems..."
+mkdir -v /var/tmp/root
+mount -v "${dev}2" /var/tmp/root
+root_ok=${?}
+mkdir -v /var/tmp/root/boot
+mount -v "${dev}1" /var/tmp/root/boot
+boot_ok=${?}
+
+if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
+    die "Failed to mount partitions!"
+fi
+
+rsync --archive --verbose --partial --numeric-ids \
+    --exclude='/dev' --exclude='/proc' --exclude='/sys' --exclude='/srv/nfs' \
+    --exclude='/tmp' --exclude='/var/tmp' --exclude='/var/cache/pacman/pkg/' \
+    --exclude='/var/log/journal/' \
+    root@129.82.44.241:/ /var/tmp/root/
+
+hostname="raspberry-pi"
+info "Setting hostname: ${hostname}"
+echo "${hostname}" > /var/tmp/root/etc/hostname
+
+info "Unmounting file systems..."
+umount -v /var/tmp/root/boot
+umount -v /var/tmp/root
