@@ -31,7 +31,12 @@ load_config() {
     source "${PICLE_CONF}/main.sh" \
         || die "Could not load main configuration file: ${PICLE_CONF}/main.sh"
 
-    PATH="${PICLE_HOME}/bin:${PATH}"
+    if type picle-info &> /dev/null; then
+        PATH="${PICLE_HOME}/bin:${PATH}"
+    fi
+    if type picle-info &> /dev/null; then
+        die "Failed to locate picle executables!"
+    fi
 
     git submodule status  | grep '^-' &> /dev/null && ( \
         info "Initializing submodules..."
