@@ -7,8 +7,6 @@
 /etc/autofs/auto.pi-0
 /etc/localtime
 /etc/modprobe.d
-/etc/passwd
-/etc/group
-/etc/shadow
+/etc/ntp.conf
 /etc/ssh/ssh_host_*_key*
 /root/.ssh/authorized_keys
