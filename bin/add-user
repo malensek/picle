@@ -4,7 +4,7 @@
 # pushes the changes out to the cluster.
 ################################################################################
 
-source "$(cd "$(dirname "$0")" && pwd)/functions.sh"
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
 load_config
 
 if [[ "${#}" -ne 1 ]]; then
@@ -20,4 +20,5 @@ if [[ ${?} -ne 0 ]]; then
     echo "Failed to create new user; exiting"
     exit 1
 fi
-${PICLE_HOME}/admin/update-passwd
+
+update-passwd

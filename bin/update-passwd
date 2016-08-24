@@ -5,13 +5,16 @@
 # after adding/removing user accounts or groups.
 ################################################################################
 
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
+load_config
+
 files="
     /etc/passwd
     /etc/shadow
     /etc/group
 "
 
-for i in $(cat ./pi-cluster.txt); do
+for i in $(cat ${PICLE_CONF}/cluster-members.txt); do
     echo "-- ${i} --"
     for f in ${files}; do
 	scp "${f}" "${i}:${f}"
