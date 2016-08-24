@@ -14,6 +14,11 @@ echo_color() {
     echo -e "\e[0;${color}m${@}\e[0m"
 }
 
+die() {
+    echo_color 31 "[X] ${@}"
+    exit 1
+}
+
 load_config() {
     if [[ -z "${PICLE_CONF}" ]]; then
         PICLE_CONF="${PICLE_HOME}/config/config.sh"
