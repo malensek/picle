@@ -3,9 +3,12 @@
 # generating a machine template. Supports wildcards.
 ################################################################################
 /boot/config.txt
+/etc/autofs/auto.master
+/etc/autofs/auto.pi-0
 /etc/localtime
 /etc/modprobe.d
 /etc/passwd
 /etc/group
+/etc/shadow
 /etc/ssh/ssh_host_*_key*
 /root/.ssh/authorized_keys
