@@ -21,11 +21,11 @@ die() {
 
 load_config() {
     if [[ -z "${PICLE_CONF}" ]]; then
-        PICLE_CONF="${PICLE_HOME}/config/config.sh"
+        PICLE_CONF="${PICLE_HOME}/config"
     fi
 
-    source "${PICLE_CONF}" \
-        || die "Could not load configuration: ${PICLE_CONF}"
+    source "${PICLE_CONF}/main.sh" \
+        || die "Could not load main configuration file: ${PICLE_CONF}/main.sh"
 
     git submodule status  | grep '^-' &> /dev/null && ( \
         info "Initializing submodules..."
