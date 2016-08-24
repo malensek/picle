@@ -1,0 +1,3 @@
+[submodule "bin/dssh"]
+	path = bin/dssh
+	url = http://github.com/malensek/dssh
