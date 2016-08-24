@@ -1,3 +1,0 @@
-[submodule "shared/dssh"]
-	path = shared/dssh
-	url = http://github.com/malensek/dssh
