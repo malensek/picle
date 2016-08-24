@@ -1,10 +1,10 @@
 
-echo_info() {
+info() {
     echo_color 34 "[>] ${@}"
 }
 
-echo_info_delay() {
-    echo_info "${@}"
+info_delay() {
+    info "${@}"
     sleep 1
 }
 
@@ -28,7 +28,7 @@ load_config() {
         || die "Could not load configuration: ${PICLE_CONF}"
 
     git submodule status  | grep '^-' &> /dev/null && ( \
-        echo_info "Initializing submodules..."
+        info "Initializing submodules..."
         git submodule init
         git submodule update
     )
