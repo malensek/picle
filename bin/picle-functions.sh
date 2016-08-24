@@ -31,10 +31,11 @@ load_config() {
     source "${PICLE_CONF}/main.sh" \
         || die "Could not load main configuration file: ${PICLE_CONF}/main.sh"
 
-    if type picle-info &> /dev/null; then
+    if ! type picle-info &> /dev/null; then
         PATH="${PICLE_HOME}/bin:${PATH}"
     fi
-    if type picle-info &> /dev/null; then
+    if ! type picle-info &> /dev/null; then
+        # Still can't find it!
         die "Failed to locate picle executables!"
     fi
 
