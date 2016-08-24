@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
 
-echo_color() {
-    color="${1}"
-    shift 1
-    echo -e "\e[0;${color}m${@}\e[0m"
-}
-
-info() {
-    echo_color 34 "[>] ${@}"
-    sleep 1
-}
-
-die() {
-    echo_color 31 "[X] ${@}"
-    exit 1
-}
+if [[ -z "${PICLE_HOME}" ]]; then
+    PICLE_HOME="$(cd "$(dirname "$0")" && pwd)/.."
+fi
+source "${PICLE_HOME}/shared/functions.sh" \
+    || (echo "PICLE_HOME is not set or invalid!"; exit 1)
+load_config
 
 hostname="raspberry-pi"
 
@@ -32,9 +23,9 @@ template="${2}"
 (mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
 
 [[ -z "${template}" ]] && \
-    info "Warning: No template image specified. Creating stock install."
+    info_delay "Warning: No template image specified. Creating stock install."
 
-info "Partitioning disk..."
+info_delay "Partitioning disk..."
 cat <<EOM | fdisk "${dev}"
 p
 o
@@ -53,12 +44,12 @@ p
 w
 EOM
 
-info "Creating file systems..."
+info_delay "Creating file systems..."
 
 mkfs.vfat "${dev}1"
 mkfs.f2fs "${dev}2"
 
-info "Mounting file systems..."
+info_delay "Mounting file systems..."
 mkdir -v /var/tmp/boot
 mkdir -v /var/tmp/root
 mount -v "${dev}1" /var/tmp/boot
@@ -70,27 +61,27 @@ if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
     die "Failed to mount partitions!"
 fi
 
-info "Retrieving latest arch linux image..."
+info_delay "Retrieving latest arch linux image..."
 wget -N http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -P /var/tmp
 
-info "Creating root directory..."
+info_delay "Creating root directory..."
 tar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
 sync
-info "Creating boot directory..."
+info_delay "Creating boot directory..."
 mv -v /var/tmp/root/boot/* /var/tmp/boot
 
-info "Re-mounting boot into the root file system..."
+info_delay "Re-mounting boot into the root file system..."
 umount -v /var/tmp/boot
 mount -v "${dev}1" /var/tmp/root/boot
 
 if [[ ! -z "${template}" ]]; then
-    info "Applying template image..."
+    info_delay "Applying template image..."
     tar xvf "${template}" -C /var/tmp/root
 fi
 
-info "Setting hostname: ${hostname}"
+info_delay "Setting hostname: ${hostname}"
 echo "${hostname}" > /var/tmp/root/etc/hostname
 
-info "Unmounting file systems..."
+info_delay "Unmounting file systems..."
 umount -v /var/tmp/root/boot
 umount -v /var/tmp/root
