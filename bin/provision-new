@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -z "${PICLE_HOME}" ]]; then
-    PICLE_HOME="$(cd "$(dirname "$0")" && pwd)/.."
-fi
-source "${PICLE_HOME}/shared/functions.sh" \
-    || (echo "PICLE_HOME is not set or invalid!"; exit 1)
-load_config
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
 
 hostname="raspberry-pi"
 
