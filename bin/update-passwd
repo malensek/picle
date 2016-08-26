@@ -6,7 +6,6 @@
 ################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
-load_config
 
 files="
     /etc/passwd
