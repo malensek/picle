@@ -60,7 +60,7 @@ info_delay "Retrieving latest arch linux image..."
 wget -N http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -P /var/tmp
 
 info_delay "Creating root directory..."
-tar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
+bsdtar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
 sync
 info_delay "Creating boot directory..."
 mv -v /var/tmp/root/boot/* /var/tmp/boot
