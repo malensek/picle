@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [[ ${#} -ne 3 ]]; then
+    echo "Usage: $(basename ${0}) remote-host file-list template-name"
+    exit 1
+fi
+
+host="${1}"
+list="${2}"
+name="${3}"
+
+rm -fv "${name}"
+files=$(sed '/^#/d' "${list}")
+set -f
+ssh "${host}" 'tar czvf - -- '${files} > "${name}"
+set +f
+
+chmod -v 600 "${name}"

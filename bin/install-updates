@@ -4,21 +4,19 @@
 # then starts the install process in parallel across the cluster.
 ################################################################################
 
-update_dir="/s/pi-0/sys/updates"
-
-################################################################################
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
 
 now=$(date '+%F')
-dir="${update_dir}/${now}"
+dir="${UPDATE_DIR}/${now}"
 
 echo "Creating update directory: ${dir}"
 mkdir -p "${dir}" 
 
 echo "Downloading updates..."
-pacman --sync --sysupgrade --downloadonly --noconfirm --cachedir "${dir}"
+pacman --sync --refresh --sysupgrade --downloadonly --noconfirm --cachedir "${dir}"
 
 echo "Installing updates..."
-./dssh/bin/dssh -t10 -jf ./pi-cluster.txt \
+dssh -t10 -jf ${PICLE_CONF}/cluster-members.txt \
     "pacman --upgrade --noprogressbar --noconfirm ${dir}/*"
 
 echo "Complete."

@@ -5,7 +5,6 @@
 ################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
-load_config
 
 if [[ "${#}" -ne 1 ]]; then
     echo "Usage: $(basename ${0}) <username>"
