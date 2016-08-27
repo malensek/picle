@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 led="/sys/class/leds/led0"
 

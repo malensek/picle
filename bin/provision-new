@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 hostname="raspberry-pi"
 

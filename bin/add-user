@@ -4,7 +4,7 @@
 # pushes the changes out to the cluster.
 ################################################################################
 
-source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 if [[ "${#}" -ne 1 ]]; then
     echo "Usage: $(basename ${0}) <username>"

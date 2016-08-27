@@ -4,7 +4,7 @@
 # then starts the install process in parallel across the cluster.
 ################################################################################
 
-source "$(cd "$(dirname "$0")" && pwd)/picle-functions.sh"
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 now=$(date '+%F')
 dir="${UPDATE_DIR}/${now}"
