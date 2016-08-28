@@ -49,3 +49,30 @@ die() {
     echo_color 31 "[X] ${@}"
     exit 1
 }
+
+initialize_picle() {
+    if [[ -z "${PICLE_HOME}" ]]; then
+        PICLE_HOME="$(cd "$(dirname "$0")" && pwd)/.."
+    fi
+
+    if [[ -z "${PICLE_CONF}" ]]; then
+        PICLE_CONF="${PICLE_HOME}/config"
+    fi
+
+    source "${PICLE_CONF}/main.sh" \
+        || die "Could not load main configuration file: ${PICLE_CONF}/main.sh"
+
+    if ! type picle-info &> /dev/null; then
+        PATH="${PICLE_HOME}/bin:${PATH}"
+    fi
+    if ! type picle-info &> /dev/null; then
+        # Still can't find it!
+        die "Failed to locate picle executables!"
+    fi
+
+    git submodule status  | grep '^-' &> /dev/null && ( \
+        info "Initializing submodules..."
+    git submodule init
+    git submodule update
+    )
+}
