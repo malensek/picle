@@ -8,7 +8,8 @@ source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 led="/sys/class/leds/led0"
 
 echo "Disabling LEDs on the cluster..."
-dssh -pqf ${PICLE_CONF}/cluster-members.txt 'echo "none" > /sys/class/leds/led0/trigger'
+dssh -pqf ${PICLE_CONF}/cluster-members.txt \
+    'echo "none" > /sys/class/leds/led0/trigger'
 
 read -r -d '' remote_script <<EOM
 while true; do
@@ -26,4 +27,5 @@ echo "Starting locator beacon. Press ^C to stop."
 ssh "${target_machine}" "${remote_script}"
 
 echo "Restoring LEDs..."
-dssh -pqf ${PICLE_CONF}/cluster-members.txt "echo 'mmc0' > ${led}/trigger"
+dssh -pqf ${PICLE_CONF}/cluster-members.txt \
+    "echo 'mmc0' > ${led}/trigger"
