@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+
+target_machine="${1}"
+
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 led="/sys/class/leds/led0"
@@ -20,7 +23,7 @@ done
 EOM
 
 echo "Starting locator beacon. Press ^C to stop."
-ssh '129.82.44.241' "${remote_script}"
+ssh "${target_machine}" "${remote_script}"
 
 echo "Restoring LEDs..."
 dssh -pqf ${PICLE_CONF}/cluster-members.txt "echo 'mmc0' > ${led}/trigger"
