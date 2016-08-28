@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ ${#} -ne 1 ]]; then
+    echo "Usage: $(basename ${0}) target_machine"
+    echo "Disables the power LED across the entire cluster, and then activates"
+    echo "the led on a single target machine for identification."
+    exit 1
+fi
 
 target_machine="${1}"
 
