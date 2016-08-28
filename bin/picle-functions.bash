@@ -38,6 +38,13 @@ echo_color() {
     echo -e "\e[0;${color}m${@}\e[0m"
 }
 
+require() {
+    type "${1}" &> /dev/null
+    if [[ ${?} -ne 0 ]]; then
+        die "Could not find required utility: ${1}"
+    fi
+}
+
 die() {
     echo_color 31 "[X] ${@}"
     exit 1
