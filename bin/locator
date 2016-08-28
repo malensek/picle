@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+################################################################################
+# locator - uses the Raspberry Pi LEDs to physically locate a particular node.
+################################################################################
 
 if [[ ${#} -ne 1 ]]; then
     echo "Usage: $(basename ${0}) target_machine"
