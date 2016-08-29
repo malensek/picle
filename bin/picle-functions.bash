@@ -10,7 +10,7 @@ info_delay() {
 echo_color() {
     color="${1}"
     shift 1
-    echo -e "\e[0;${color}m${@}\e[0m"
+    echo -e $'\e[0;'${color}'m'${@}$'\e[0m'
 }
 
 require() {
