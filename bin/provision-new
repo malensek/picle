@@ -10,8 +10,19 @@ require wget
 
 hostname="raspberry-pi"
 
+print_usage() {
+cat <<EOM
+Usage: $(basename ${0}) [-h hostname] [-t template_file] target-device
+Options:
+    * -h hostname       Specifies a hostname for the new host. Defaults to
+                            'raspberry-pi'
+    * -t template_file  A base file system tree to apply to the new host; see
+                            'mktemplate' for creating templates.
+EOM
+}
+
 if [[ ${#} -lt 1 ]]; then
-    echo "Usage: $(basename ${0}) device [template-image]"
+    print_usage
     exit 1
 fi
 
