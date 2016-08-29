@@ -43,13 +43,12 @@ if [[ ${#} -lt 1 ]]; then
 fi
 
 dev="${1}"
-template="${2}"
 
 [[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
-[[ ! -z "${template}" && ! -e "${template}" ]] && \
-    die "Template does not exist: ${template}"
 (mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
 
+[[ ! -z "${template}" && ! -e "${template}" ]] && \
+    die "Template does not exist: ${template}"
 [[ -z "${template}" ]] && \
     info_delay "Warning: No template image specified. Creating stock install."
 
