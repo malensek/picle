@@ -2,6 +2,12 @@
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
+require bsdtar
+require fdisk
+require mkfs.f2fs
+require mkfs.vfat
+require wget
+
 hostname="raspberry-pi"
 
 if [[ ${#} -lt 1 ]]; then
