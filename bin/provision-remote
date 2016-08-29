@@ -2,6 +2,10 @@
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
+require fdisk
+require mkfs.f2fs
+require mkfs.vfat
+
 if [[ ${#} -lt 1 ]]; then
     echo "Usage: $(basename ${0}) device [template-image]"
     exit 1
