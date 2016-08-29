@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+################################################################################
+# provision-new - creates a brand new machine image from scratch.
+################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
@@ -9,6 +12,9 @@ require mkfs.vfat
 require wget
 
 hostname="raspberry-pi"
+template=""
+
+################################################################################
 
 print_usage() {
 cat <<EOM
