@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+################################################################################
+# picle-info - provides information about the picle distribution and performs
+# sanity checks on the current configuration.
+################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/functions.sh"
 load_config
 
 echo "PICLE_HOME=${PICLE_HOME}"
 echo "PICLE_CONF=${PICLE_CONF}"
+
