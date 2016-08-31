@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+export_file="./exports"
+
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+# Clear the existing exports
+> "${export_file}"
+
+count=0
+for dir in ${NFS_DIRS}; do
+    opts="${NFS_OPTS}"
+    if [[ ${count} -eq 0 ]]; then
+        opts="fsid=root,${opts}"
+    fi
+    echo -n "${dir}" >> "${export_file}"
+    for host in $(cat "${PICLE_CONF}/cluster-members.txt"); do
+        echo "    ${host}(${opts}) \\" >> "${export_file}"
+    done
+    echo >> "${export_file}"
+done
