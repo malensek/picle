@@ -47,6 +47,10 @@ die() {
     exit 1
 }
 
+is_master() {
+    [[ "${MASTER_NODE}" == "$(hostname)" ]] || return 1 && return 0
+}
+
 initialize_picle() {
     if [[ -z "${PICLE_HOME}" ]]; then
         PICLE_HOME="$(cd "$(dirname "$0")" && pwd)/.."
