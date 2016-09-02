@@ -2,6 +2,17 @@ picle_version() {
     echo "1.0"
 }
 
+picle_splash() {
+cat <<EOM
+          __        __
+  .-----.|__|.----.|  |.-----.
+  |  _  ||  ||  __||  ||  -__|
+  |   __||__||____||__||_____|
+  |__|
+          Version $(picle_version)
+EOM
+}
+
 info() {
     echo_color 34 "[>] ${@}"
 }
