@@ -6,6 +6,10 @@
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
+picle_splash
+
+echo
+
 echo "PICLE_HOME=${PICLE_HOME}"
 echo "PICLE_CONF=${PICLE_CONF}"
 
