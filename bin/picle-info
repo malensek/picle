@@ -4,8 +4,7 @@
 # sanity checks on the current configuration.
 ################################################################################
 
-source "$(cd "$(dirname "$0")" && pwd)/functions.sh"
-load_config
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 echo "PICLE_HOME=${PICLE_HOME}"
 echo "PICLE_CONF=${PICLE_CONF}"

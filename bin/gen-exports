@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export_file="./exports"
+export_file="/etc/exports"
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
@@ -19,3 +19,5 @@ for dir in ${NFS_DIRS}; do
     done
     echo >> "${export_file}"
 done
+
+exportfs -arv
