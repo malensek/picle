@@ -1,3 +1,7 @@
+picle_version() {
+    echo "1.0"
+}
+
 info() {
     echo_color 34 "[>] ${@}"
 }
