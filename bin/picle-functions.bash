@@ -74,6 +74,4 @@ initialize_picle() {
     )
 }
 
-# Set up environment upon sourcing
-initialize_picle
 
