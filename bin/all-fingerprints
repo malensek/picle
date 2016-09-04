@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+dssh -t10 -jf ${CLUSTER_MEMBERS} \
+    "pacman --query | md5sum | awk '${print $1}'"
