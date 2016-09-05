@@ -6,26 +6,26 @@ echo "Building local package list..."
 local=$(pacman --query --quiet)
 
 for host in $(cat ${CLUSTER_MEMBERS}); do
-	echo "Retrieving package list from ${host}..."
-	remote=$(ssh "${host}" 'pacman --query --quiet')
-	diffs=$(diff <(echo "${local}") <(echo "${remote}"))
-	if [[ -z "${diffs}" ]]; then
-	    echo "Remote and local package lists are identical."
-	    continue
-	fi
+    echo "Retrieving package list from ${host}..."
+    remote=$(ssh "${host}" 'pacman --query --quiet')
+    diffs=$(diff <(echo "${local}") <(echo "${remote}"))
+    if [[ -z "${diffs}" ]]; then
+        echo "Remote and local package lists are identical."
+        continue
+    fi
 
-	add=$(grep '^<' <<< "${diffs}" | sed 's/^< //g')
-	remove=$(grep '^>' <<< "${diffs}" | sed 's/^> //g')
+    add=$(grep '^<' <<< "${diffs}" | sed 's/^< //g')
+    remove=$(grep '^>' <<< "${diffs}" | sed 's/^> //g')
 
-	if [[ ! -z "${add}" ]]; then
-	    echo "Packages to add:"
-	    echo "${add}"
-	    echo "${add}" | ssh "${host}" 'pacman --refresh --sync --noconfirm -'
-	fi
+    if [[ ! -z "${add}" ]]; then
+        echo "Packages to add:"
+        echo "${add}"
+        echo "${add}" | ssh "${host}" 'pacman --refresh --sync --noconfirm -'
+    fi
 
-	if [[ ! -z "${remove}" ]]; then
-	    echo "Packages to remove:"
-	    echo "${remove}"
-	    echo "${remove}" | ssh "${host}" 'pacman --remove --noconfirm -'
-	fi
+    if [[ ! -z "${remove}" ]]; then
+        echo "Packages to remove:"
+        echo "${remove}"
+        echo "${remove}" | ssh "${host}" 'pacman --remove --noconfirm -'
+    fi
 done
