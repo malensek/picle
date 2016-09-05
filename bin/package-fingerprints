@@ -10,8 +10,8 @@ cluster_fps=$(dssh -t10 -pqf ${CLUSTER_MEMBERS} \
     | grep '^host:')
 
 if [[ "${cluster_fps}" == "" ]]; then
-	echo "All fingerprints match!"
-	exit 0
+    echo "All fingerprints match!"
+    exit 0
 fi
 
 while read fp; do
