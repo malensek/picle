@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
-
-packages=$(pacman --query) || die "Could not retrieve package list!"
-echo "${packages}" | md5sum | awk '{ print $1 }'
-
