@@ -16,6 +16,6 @@ files="
 for i in $(cat ${PICLE_CONF}/cluster-members.txt); do
     echo "-- ${i} --"
     for f in ${files}; do
-	scp "${f}" "${i}:${f}"
+    scp "${f}" "${i}:${f}"
     done
 done
