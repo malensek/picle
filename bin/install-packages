@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+################################################################################
+# install-updates - downloads all available updates to a shared location and
+# then starts the install process in parallel across the cluster.
+################################################################################
+
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+if [[ ${#} -lt 1 ]]; then
+    echo "Usage: $(basename ${0}) package-list"
+    exit 1
+fi
+
+now=$(date '+%F')
+dir="${UPDATE_DIR}/${now}"
+
+echo "Creating update directory: ${dir}"
+mkdir -p "${dir}" 
+
+echo "Downloading updates..."
+pacman --sync --refresh --downloadonly --noconfirm --cachedir "${dir}" "${@}"
+
+echo "Installing updates..."
+dssh -t10 -jf ${CLUSTER_MEMBERS} \
+    "pacman --upgrade --noprogressbar --noconfirm ${dir}/*"
+
+echo "Complete."
