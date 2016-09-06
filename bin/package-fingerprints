@@ -9,6 +9,11 @@ cluster_fps=$(dssh -t10 -pqf ${CLUSTER_MEMBERS} \
     'echo -n "host:    $(hostname)    "; pacman --query | md5sum ' \
     | grep '^host:')
 
+if [[ "${cluster_fps}" == "" ]]; then
+	echo "All fingerprints match!"
+	exit 0
+fi
+
 while read fp; do
     hash=$(echo "${fp}" | awk '{ print $3 }')
     if [[ "${master_hash}" != "${hash}" ]]; then
