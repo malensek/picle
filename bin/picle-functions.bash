@@ -22,6 +22,10 @@ info_delay() {
     sleep 1
 }
 
+info_error() {
+    echo_color 31 "[X] ${@}"
+}
+
 echo_color() {
     color="${1}"
     shift 1
@@ -36,7 +40,7 @@ require() {
 }
 
 die() {
-    echo_color 31 "[X] ${@}"
+    info_error "${@}"
     exit 1
 }
 
