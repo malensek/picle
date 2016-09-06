@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export_file="./exports"
+export_file="/etc/exports"
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
