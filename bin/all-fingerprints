@@ -2,5 +2,17 @@
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
-dssh -t10 -jf ${CLUSTER_MEMBERS} \
-    "pacman --query | md5sum | awk '${print $1}'"
+packages=$(pacman --query) || die "Could not retrieve package list!"
+master_hash=$(echo "${packages}" | md5sum | awk '{ print $1 }')
+
+cluster_fps=$(dssh -t10 -pqf ${CLUSTER_MEMBERS} \
+    'echo -n "host:    $(hostname)    "; pacman --query | md5sum ' \
+    | grep '^host:')
+
+while read fp; do
+    hash=$(echo "${fp}" | awk '{ print $3 }')
+    if [[ "${master_hash}" != "${hash}" ]]; then
+        hostname=$(echo "${fp}" | awk '{ print $2 }')
+        info_error "Fingerprint does not match: ${hostname}"
+    fi
+done <<< "${cluster_fps}"
