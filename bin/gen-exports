@@ -19,3 +19,5 @@ for dir in ${NFS_DIRS}; do
     done
     echo >> "${export_file}"
 done
+
+exportfs -arv
