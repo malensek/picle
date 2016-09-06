@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-host="129.82.44.221"
+host="129.82.44.241"
 
 echo "Retrieving package list from ${host}..."
 remote=$(ssh "${host}" 'pacman --query --quiet')
