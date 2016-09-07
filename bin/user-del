@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ################################################################################
-# del-user - deletes an existing user account and pushes the changes out to the
+# user-del - deletes an existing user account and pushes the changes out to the
 # cluster. **NOTE:** the user's home directory will be erased. Make backups if
 # necessary.
 ################################################################################

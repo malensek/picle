@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ################################################################################
-# add-user - creates a new user account (including home directory on NFS) and
+# user-add - creates a new user account (including home directory on NFS) and
 # pushes the changes out to the cluster.
 ################################################################################
 
