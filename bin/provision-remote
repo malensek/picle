@@ -20,9 +20,9 @@ template="${2}"
 (mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
 
 [[ -z "${template}" ]] && \
-    info "Warning: No template image specified. Creating stock install."
+    info_delay "Warning: No template image specified. Creating stock install."
 
-info "Partitioning disk..."
+info_delay "Partitioning disk..."
 cat <<EOM | fdisk "${dev}"
 p
 o
@@ -41,12 +41,12 @@ p
 w
 EOM
 
-info "Creating file systems..."
+info_delay "Creating file systems..."
 
 mkfs.vfat "${dev}1"
 mkfs.f2fs "${dev}2"
 
-info "Mounting file systems..."
+info_delay "Mounting file systems..."
 mkdir -v /var/tmp/root
 mount -v "${dev}2" /var/tmp/root
 root_ok=${?}
@@ -62,12 +62,12 @@ rsync --archive --verbose --partial --numeric-ids \
     --exclude='/dev' --exclude='/proc' --exclude='/sys' --exclude='/srv/nfs' \
     --exclude='/tmp' --exclude='/var/tmp' --exclude='/var/cache/pacman/pkg/' \
     --exclude='/var/log/journal/' \
-    root@129.82.44.241:/ /var/tmp/root/
+    root@129.82.44.205:/ /var/tmp/root/
 
 hostname="raspberry-pi"
-info "Setting hostname: ${hostname}"
+info_delay "Setting hostname: ${hostname}"
 echo "${hostname}" > /var/tmp/root/etc/hostname
 
-info "Unmounting file systems..."
+info_delay "Unmounting file systems..."
 umount -v /var/tmp/root/boot
 umount -v /var/tmp/root
