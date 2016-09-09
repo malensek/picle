@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
+################################################################################
+# gen-exports - 
+################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
 require exportfs
 
 export_file="/etc/exports"
+
+################################################################################
 
 is_master || die "This script should only be run on the master node " \
     "(NFS server)"
