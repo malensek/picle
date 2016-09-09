@@ -22,6 +22,10 @@ for dir in ${NFS_DIRS}; do
 done
 info "Options:"
 echo "${NFS_OPTS}"
+if ! prompt_bool "Proceed?"; then
+    exit 1
+fi
+
 # Clear the existing exports
 > "${export_file}"
 
