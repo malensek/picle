@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ################################################################################
-# gen-exports - 
+# gen-exports - Generates the /etc/exports file for the master NFS server.
 ################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
