@@ -14,6 +14,14 @@ export_file="/etc/exports"
 is_master || die "This script should only be run on the master node " \
     "(NFS server)"
 
+info "Using cluster membership file to generate ${export_file}:"
+echo "    $(readlink -e "${CLUSTER_MEMBERS}")"
+info "NFS directories:"
+for dir in ${NFS_DIRS}; do
+    echo "    ${dir}"
+done
+info "Options:"
+echo "${NFS_OPTS}"
 # Clear the existing exports
 > "${export_file}"
 
