@@ -44,6 +44,25 @@ die() {
     exit 1
 }
 
+prompt_bool() {
+    yn="[y/N]"
+    default=1
+    if [[ -n "${2}" ]]; then
+        default="${2}"
+    fi
+    if [[ ${default} -eq 0 ]]; then
+        yn="[Y/n]"
+    fi
+    while true; do
+        read -p "${1} ${yn} " answer
+        case ${answer} in
+            [Yy]*) return 0;;
+            [Nn]*) return 1;;
+            "") return ${default};;
+        esac
+    done
+}
+
 is_master() {
     [[ "${MASTER_NODE}" == "$(hostname)" ]] || return 1 && return 0
 }
