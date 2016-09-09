@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
+################################################################################
+# package-fingerprints - Generates an MD5 checksum based on the packages and
+# versions installed on this machine and then compares with the rest of the
+# cluster.
+################################################################################
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+################################################################################
 
 packages=$(pacman --query) || die "Could not retrieve package list!"
 master_hash=$(echo "${packages}" | md5sum | awk '{ print $1 }')
