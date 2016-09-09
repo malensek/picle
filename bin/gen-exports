@@ -3,6 +3,8 @@
 export_file="/etc/exports"
 
 source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+is_master || die "This script should only be run on the master node " \
+    "(NFS server)"
 
 # Clear the existing exports
 > "${export_file}"
