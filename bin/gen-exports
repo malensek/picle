@@ -14,7 +14,7 @@ for dir in ${NFS_DIRS}; do
         opts="fsid=root,${opts}"
     fi
     echo -n "${dir}" >> "${export_file}"
-    for host in $(cat "${PICLE_CONF}/cluster-members.txt"); do
+    for host in $(cat "${CLUSTER_MEMBERS}"); do
         echo "    ${host}(${opts}) \\" >> "${export_file}"
     done
     echo >> "${export_file}"
