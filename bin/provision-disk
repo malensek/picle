@@ -10,3 +10,4 @@ mkdir /tmp/tmpmount
 mount -v "${disk}" /tmp/tmpmount
 chgrp users /tmp/tmpmount
 chmod g+rwx /tmp/tmpmount
+umount -v /tmp/tmpmount
