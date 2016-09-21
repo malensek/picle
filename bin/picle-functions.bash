@@ -26,6 +26,10 @@ info_error() {
     echo_color 31 "[X] ${@}"
 }
 
+info_warn() {
+    echo_color 31 "[!] ${@}"
+}
+
 echo_color() {
     color="${1}"
     shift 1
