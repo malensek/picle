@@ -98,6 +98,30 @@ initialize_picle() {
     )
 }
 
+# Provisioning-related Functions ###############################################
+
+partition_disk() {
+    # Partitions a given disk for a 100MB boot and the remainder of the disk
+    # allocated to root.
+cat <<EOM | fdisk "${1}"
+p
+o
+n
+p
+1
+
++100M
+t
+c
+n
+p
+2
+
+
+w
+EOM
+}
+
 ################################################################################
 
 # Set up environment upon sourcing
