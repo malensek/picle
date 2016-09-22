@@ -127,6 +127,22 @@ create_fs() {
     mkfs.f2fs "${1}2"
 }
 
+mount_sd() {
+    dev="${1}"
+    dir="${2}"
+    mkdir -v "${dir}"
+    mount -v "${dev}2" "${dir}"
+    root_ok=${?}
+    mkdir -v "${dir}/boot"
+    mount -v "${dev}1" "${dir}/boot"
+    boot_ok=${?}
+    if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 
 ################################################################################
 
