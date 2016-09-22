@@ -23,23 +23,7 @@ template="${2}"
     info_delay "Warning: No template image specified. Creating stock install."
 
 info_delay "Partitioning disk..."
-cat <<EOM | fdisk "${dev}"
-p
-o
-n
-p
-1
-
-+100M
-t
-c
-n
-p
-2
-
-
-w
-EOM
+partition_disk "${dev}"
 
 info_delay "Creating file systems..."
 
