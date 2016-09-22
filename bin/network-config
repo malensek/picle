@@ -44,7 +44,7 @@ fi
 
 if ! ${use_dhcp}; then
     echo "${ip}" | grep '/' &> /dev/null || \
-        die "IP Address must be in CIDR notation: X.X.X.X/Y"
+        die "IP address must be in CIDR notation: X.X.X.X/Y"
 fi
 
 addrline="Address=${ip}"
