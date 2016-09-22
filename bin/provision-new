@@ -13,6 +13,7 @@ require wget
 
 hostname="raspberry-pi"
 template=""
+unset ip gw
 
 ################################################################################
 
@@ -27,9 +28,11 @@ Options:
 EOM
 }
 
-while getopts "h:t:" flag; do
+while getopts "g:h:i:t:" flag; do
     case ${flag} in
+        g) gw="${OPTARG}" ;;
         h) hostname="${OPTARG}" ;;
+        i) ip="${OPTARG}" ;;
         t) template="${OPTARG}" ;;
         ?) error_die ;;
     esac
@@ -108,6 +111,24 @@ fi
 
 info_delay "Setting hostname: ${hostname}"
 echo "${hostname}" > /var/tmp/root/etc/hostname
+
+if [[ -z "${ip}" || -z "${gw}" ]]; then
+    info_delay "No IP/gateway specified. Using DHCP."
+    #TODO force DHCP config here
+else
+info_delay "Configuring network:"
+echo "IP: ${ip}"
+echo "Gateway: ${gw}"
+cat > /var/tmp/root/etc/systemd/network/eth0.network <<EOM
+[Match]
+Name=eth0
+
+[Network]
+Address=${ip}
+Gateway=${gw}
+EOM
+fi
+
 
 info_delay "Unmounting file systems..."
 umount -v /var/tmp/root/boot
