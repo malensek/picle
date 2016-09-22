@@ -12,6 +12,15 @@ UPDATE_DIR="/srv/nfs/${PRIMARY_NODE}/sys/updates"
 USER_GROUPS="users" # (comma-separated)
 USER_HOME_DIR="/srv/nfs/${PRIMARY_NODE}/home"
 
+# Network #
+read -r -d '' NET_SETTINGS <<EOM
+Domains=cs.colostate.edu colostate.edu
+DNS=129.82.45.181
+DNS=129.82.103.78
+DNS=129.82.103.79
+Gateway=10.1.208.1
+EOM
+
 # NFS #
 NFS_DIRS="/srv/nfs/${PRIMARY_NODE}/
           /srv/nfs/${PRIMARY_NODE}/home
