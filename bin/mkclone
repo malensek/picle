@@ -1,3 +1,24 @@
 #!/usr/bin/env bash
 
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
 
+require bsdtar
+
+if [[ ${#} -lt 2 ]]; then
+    echo "Usage: $(basename ${0}) device image-name.tar.gz"
+    exit 1
+fi
+
+dev="${1}"
+image="${2}"
+
+[[ ! -e "${dev}" ]] && die "Device does not exist: ${dev}"
+(mount | grep "${dev}" &> /dev/null) && die "Device is mounted! Unmount first."
+
+info_delay "Mounting file systems..."
+mount_sd "${dev}" /var/tmp/root || die "Could not mount file systems!"
+
+bsdtar czvf "${image}" -C /var/tmp/root .
+
+info_delay "Unmounting file systems..."
+unmount_sd "/var/tmp/root"
