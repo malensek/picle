@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+################################################################################
+# network-config - 
+################################################################################
+
+source "$(cd "$(dirname "$0")" && pwd)/picle-functions.bash"
+
+dev="eth0"
+use_dhcp=false
+
+################################################################################
+
+print_usage() {
+cat <<EOM
+Usage: $(basename ${0}) [-d dev_name] ip_address
+
+Where ip_address is specified in CIDR notation; X.X.X.X/Y. For DHCP, pass in
+'DHCP' instead of an address.
+
+Options:
+    * -d dev_name       Specifies the name of the network device (e.g., 'eth1').
+                        This defaults to eth0.
+EOM
+}
+
+while getopts "d:" flag; do
+    case ${flag} in
+        d) dev="${OPTARG}" ;;
+        ?) print_usage; exit 1 ;;
+    esac
+done
+
+shift $(($OPTIND - 1))
+
+if [[ ${#} -lt 1 ]]; then
+    print_usage
+    exit 1
+fi
+
+ip="${1}"
+if [[ "${ip}" == "DHCP" || "${ip}" == "dhcp" ]]; then
+    use_dhcp=true
+fi
+
+if ! ${use_dhcp}; then
+    echo "${ip}" | grep '/' &> /dev/null || \
+        die "IP Address must be in CIDR notation: X.X.X.X/Y"
+fi
+
+addrline="Address=${ip}"
+if ${use_dhcp}; then
+    addrline="DHCP=yes"
+fi
+
+cat <<EOM
+[Match]
+Name=${dev}
+
+[Network]
+${NET_SETTINGS}
+${addrline}
+EOM
