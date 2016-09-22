@@ -122,6 +122,12 @@ w
 EOM
 }
 
+create_fs() {
+    mkfs.vfat "${1}1"
+    mkfs.f2fs "${1}2"
+}
+
+
 ################################################################################
 
 # Set up environment upon sourcing
