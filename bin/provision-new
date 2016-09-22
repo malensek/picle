@@ -34,7 +34,7 @@ while getopts "g:h:i:t:" flag; do
         h) hostname="${OPTARG}" ;;
         i) ip="${OPTARG}" ;;
         t) template="${OPTARG}" ;;
-        ?) error_die ;;
+        ?) print_usage; exit 1 ;;
     esac
 done
 
