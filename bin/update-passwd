@@ -11,6 +11,7 @@ files="
     /etc/passwd
     /etc/shadow
     /etc/group
+    /etc/gshadow
 "
 
 for i in $(cat ${PICLE_CONF}/cluster-members.txt); do
