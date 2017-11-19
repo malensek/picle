@@ -111,7 +111,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 info_delay "Creating root directory..."
-bsdtar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
+bsdtar xvf "/var/tmp/${os_image}" -C /var/tmp/root
 sync
 info_delay "Creating boot directory..."
 mv -v /var/tmp/root/boot/* /var/tmp/boot
