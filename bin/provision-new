@@ -102,9 +102,9 @@ if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
 fi
 
 info_delay "Retrieving latest arch linux image..."
-os_image="http://archlinuxarm.org/os/ArchLinuxARM-${architecture}-latest.tar.gz"
+os_image="ArchLinuxARM-${architecture}-latest.tar.gz"
 wget \
-    -N "${os_image}" \
+    -N "https://archlinuxarm.org/os/${os_image}" \
     -P /var/tmp
 if [[ $? -ne 0 ]]; then
     die "Could not download OS image: ${os_image}"
