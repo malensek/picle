@@ -26,15 +26,18 @@ Options:
                         Options:
                             rpi      (armv6): Model A, Model B 1/1+, Zero
                             rpi-2    (armv7/armv8): Model B 2 & 3
+    * -g gateway        Sets gateway address. DHCP assumed if not set.
     * -h hostname       Specifies a hostname for the new host. Defaults to
                             'raspberry-pi'
+    * -i ip_addr        Sets IP address. DHCP assumed if not set.
     * -t template_file  A base file system tree to apply to the new host; see
                             'mktemplate' for creating templates.
 EOM
 }
 
-while getopts "g:h:i:t:" flag; do
+while getopts "a:g:h:i:t:" flag; do
     case ${flag} in
+        a) architecture"${OPTARG}" ;;
         g) gw="${OPTARG}" ;;
         h) hostname="${OPTARG}" ;;
         i) ip="${OPTARG}" ;;
