@@ -11,6 +11,7 @@ require mkfs.f2fs
 require mkfs.vfat
 require wget
 
+architecture="rpi-2"
 hostname="raspberry-pi"
 template=""
 unset ip gw
@@ -21,6 +22,10 @@ print_usage() {
 cat <<EOM
 Usage: $(basename ${0}) [-h hostname] [-t template_file] target-device
 Options:
+    * -a architecture   CPU architecture (default: rpi-2)
+                        Options:
+                            rpi      (armv6): Model A, Model B 1/1+, Zero
+                            rpi-2    (armv7/armv8): Model B 2 & 3
     * -h hostname       Specifies a hostname for the new host. Defaults to
                             'raspberry-pi'
     * -t template_file  A base file system tree to apply to the new host; see
@@ -54,6 +59,8 @@ dev="${1}"
     die "Template does not exist: ${template}"
 [[ -z "${template}" ]] && \
     info_delay "Warning: No template image specified. Creating stock install."
+
+info_delay "CPU Architecture: ${architecture}"
 
 info_delay "Partitioning disk..."
 cat <<EOM | fdisk "${dev}"
@@ -92,7 +99,13 @@ if [[ "${boot_ok}" -ne 0 || "${root_ok}" -ne 0 ]]; then
 fi
 
 info_delay "Retrieving latest arch linux image..."
-wget -N http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -P /var/tmp
+os_image="http://archlinuxarm.org/os/ArchLinuxARM-${architecture}-latest.tar.gz"
+wget \
+    -N "${os_image}" \
+    -P /var/tmp
+if [[ $? -ne 0 ]]; then
+    die "Could not download OS image: ${os_image}"
+fi
 
 info_delay "Creating root directory..."
 bsdtar xvf /var/tmp/ArchLinuxARM-rpi-2-latest.tar.gz -C /var/tmp/root
