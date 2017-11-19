@@ -37,7 +37,7 @@ EOM
 
 while getopts "a:g:h:i:t:" flag; do
     case ${flag} in
-        a) architecture"${OPTARG}" ;;
+        a) architecture="${OPTARG}" ;;
         g) gw="${OPTARG}" ;;
         h) hostname="${OPTARG}" ;;
         i) ip="${OPTARG}" ;;
